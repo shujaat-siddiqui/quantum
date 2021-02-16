@@ -1,0 +1,158 @@
+
+<div *ngIf="!isProjectLoaded">
+  <div class="d-flex justify-content-center" style="margin-top: 10%">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="d-flex justify-content-center" style="margin-top: 5%; margin-bottom: 5%">
+    <h1 class="display-5">Loading your project..</h1>
+  </div>
+</div> 
+
+<div style="display: flex; flex-direction: column;  padding: 5%; padding-top: 1%; width: 100%" *ngIf="isProjectLoaded">
+
+  <div style="display: flex; flex-direction: column; width: 100%;background-image: url({{projectImage}}); background-repeat: no-repeat;">
+    <div class="d-flex justify-content-between" style="padding: 1%">
+      <div>
+        <h1 class="display-4" style="color: burlywood ;">
+          {{ project.projectName }}
+        </h1>
+        <span class="material-icons" style="color: burlywood; float: left; margin-left: 5px">assignment_ind&nbsp;</span>
+        <h5 style="float: left">
+          <span class="badge text-dark" style="background-color: burlywood ;">{{ project.manager.firstName }}
+            {{ project.manager.lastName }}</span>
+        </h5>
+      </div>
+
+      <div style="
+            display: flex;
+            flex-direction: row;
+            margin-top: 7px;
+            margin-right: 2%;
+            font-size: large;
+          ">
+        <span [ngStyle]="{ color: statusColor }">
+          <span class="material-icons" style="float: left">
+            {{ statusIcon }}
+          </span>
+          <p class="font-weight-normal" style="float: left">
+            {{ project.projectStatus }}
+          </p>
+        </span>
+
+        &nbsp; &nbsp;
+
+        <span style="color: orange">
+          <span class="material-icons" style="float: left"> location_on </span>
+          <p class="font-weight-normal" style="float: left">
+            {{ project.location }}
+          </p>
+        </span>
+      </div>
+    </div>
+
+    <div style="margin: 1.5%; margin-top: 5px; margin-bottom: 1%">
+      <p class="lead" style="color: burlywood">
+        {{ project.projectDescription }}
+      </p>
+    </div>
+
+    <div style="
+          display: flex;
+          flex-direction: row;
+          margin: 1.5%;
+          margin-top: 5px;
+          margin-bottom: 1%;
+          color: burlywood;
+          font-size: large;
+        ">
+      <span>
+        <span class="material-icons" style="float: left"> today </span>
+        <p class="font-weight-normal" style="float: left">{{ startDate }}</p>
+      </span>
+
+      &nbsp; &nbsp;
+
+      <span>
+        <span class="material-icons" style="float: left"> event </span>
+        <p class="font-weight-normal" style="float: left">{{ endDate }}</p>
+      </span>
+    </div>
+  </div>
+
+  <div>
+    <figure class="text-center" style="padding-left: 2%; padding-right: 2%; margin-top: 1%" *ngIf="!isError">
+      <span class="d-block p-2" style="color:burlywood;background-image: url({{resourceImage}}); background-repeat: no-repeat">
+        <p class="h4">Select Resources</p>
+      </span>
+    </figure>    
+
+    <div class="jumbotron" *ngIf="isError" style="margin-top: 2%" >
+      <h1 class="display-5">Insufficient Resources!</h1>
+      <p class="lead">
+        The requried number of resources for this project is not Available.
+      </p>
+      <hr class="my-4" />
+      <p>Click below to try again.</p>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" role="button" (click)="tryAgain()">Find Resources</a>
+      </p>
+    </div>
+
+    <div *ngIf="loadingResourcesSpinner()">
+      <div class="d-flex justify-content-center" style="margin-top: 7%">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div class="d-flex justify-content-center" style="margin-top: 5%; margin-bottom: 5%">
+        <h1 class="display-5">Finding resources for your project..</h1>
+      </div>
+    </div>
+    <div class="container" *ngIf="isResourcesLoaded"> 
+        <h2 style="text-align: center;font-weight: 600;"> Available Resources For Project</h2>
+        <br>
+      <div class="row" > 
+      
+      <div *ngFor="let expertise of expertiseArray;let i = index" fxLayout="row">
+          <div class="column"> 
+            <mat-card  style="justify-content: center;width: 250px;">
+            <h1 style="text-align: center;font-weight: 500;color: black;font-weight: 500;">{{expertise.designation}}</h1>
+          </mat-card>
+          <div fxLayout="column" class="card"
+          *ngFor="let resource of expertise?.resourcesSuggested | slice:0:expertise?.noOfResources/3; let j = index" >
+          <div *ngIf='expertise.designation == resource.designation'>
+            <mat-card class="profile-card" >
+            <!--  <mat-card-subtitle>
+              <section class="example-section">
+                  <button 
+                  mat-icon-button style="width: 10px; height: 10px;" 
+                 [disabled]="expertise.resourcesSuggested.length==expertise?.noOfResources/3"
+                  (click)=deleteDev(i,j)><span class="material-icons">
+                    clear
+                    </span></button>
+              </section>
+            </mat-card-subtitle>  -->
+              <mat-card-header style="display: flex; flex-direction: column;">
+                <div fxLayout="row"> 
+                  <mat-card-title style="font-size: large;text-align:left;">{{resource.name}}
+
+                  </mat-card-title>
+                  <div>
+                    <button  mat-icon-button [disabled]="expertise.resourcesSuggested.length==expertise?.noOfResources/3"
+                       (click)=deleteDev(i,j)><span class="material-icons" style="font-size: larger;">cancel</span></button>
+                  </div>
+                </div>
+                </mat-card-header>
+                <mat-card-content>
+                  <p style="font-weight: 500;">
+                    <mat-card-subtitle>{{resource.email}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{resource.designation}} Developer</mat-card-subtitle>
+                  </p>
+                </mat-card-content>
+              </mat-card>
+          </div>
+          </div>
+      </div>
+      
+      </div>
+      </div>
+      <button type="button" class="btn btn-primary" id="btn-create-team" (click)="onSubmit()" style="margin-left: 88%;font-size: 20px;">Create Team</button>
+      </div>

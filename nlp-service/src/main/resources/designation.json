@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Full Stack",
+    "values": ["Full Stack", "Stack"]
+  },
+  {
+    "name": "Backend",
+    "values": ["Backend"]
+  },
+  {
+    "name": "Testing",
+    "values": ["Testing"]
+  },
+  {
+    "name": "Frontend",
+    "values": ["Frontend", "Ui", "Ux"]
+  },
+  {
+    "name": "DevOps",
+    "values": ["DevOps", "Devops", "Ops"]
+  },
+  {
+    "name": "Mean",
+    "values": ["Mean", "Mean Stack"]
+  },
+  {
+    "name": "Mern",
+    "values": ["Mern", "Mern Stack"]
+  }
+]

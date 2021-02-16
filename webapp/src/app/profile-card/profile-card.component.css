@@ -1,0 +1,16 @@
+.profile-card {
+    max-width: 300px;
+    background-image: url("https://c4.wallpaperflare.com/wallpaper/471/768/845/blurred-minimalism-gradient-wallpaper-preview.jpg");
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+
+  }
+  .mat-button{
+    position: absolute;
+    margin-left: 210px;
+    margin-top: 20px;
+    border-style: hidden;
+  }
+  .mat-icon{
+    border-style: hidden;
+  }

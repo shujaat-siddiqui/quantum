@@ -1,0 +1,18 @@
+
+<div>
+<mat-card class="profile-card" >
+  <!-- <mat-card-subtitle><mat-button><mat-icon class="mat-icon">clear</mat-icon></mat-button></mat-card-subtitle> -->
+  <button mat-icon-button class="mat-button"><mat-icon class="mat-icon">clear</mat-icon></button> 
+  <mat-card-header style="display: flex; flex-direction: column;">
+      <mat-card-title style="font-size: large;text-align:left;">{{profile?.firstName}}&nbsp;{{profile?.LastName}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p style="font-weight: 500;">
+        <mat-card-subtitle>{{profile?.email}}</mat-card-subtitle>
+        <mat-card-subtitle>Experience: {{profile?.experienceInYrs}} years</mat-card-subtitle>
+        <mat-card-subtitle>Contact: +91{{profile?.contactNo}}</mat-card-subtitle>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

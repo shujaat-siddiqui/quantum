@@ -1,0 +1,45 @@
+  
+
+<div class="header"style="padding-top: 10px; background-color: rgb(171, 212, 199);">
+    <p><span style="font-size: x-large;padding-top: 20px;margin-left: 20px;position: absolute;font-weight: 500;">{{projectDetails?.projectName}}             </span><span style="padding-left: 750px;font-weight: 500;margin-left:640px;" [style.color]="getColor(projectDetails?.projectStatus)">{{projectDetails?.projectStatus}}</span></p><br>
+    <p><span style="padding-left: 20px;">{{projectDetails?.projectDescription}}</span>    <span class="icon-style" > <mat-icon class="icon-styling" style="color: rgb(246, 246, 246);margin-left:770px;" >date_range</mat-icon> <span style="font-weight: 500;"> {{projectDetails?.startDate}}</span></span></p>
+     
+     <!-- <span style="padding-left: 8rem; "> </span> 
+      <span class="icon-style"> <mat-icon class="icon-styling" style="color: blue;">event</mat-icon> <span>{{projectDetails?.endDate.getDate()+'-'+projectDetails?.endDate.getMonth()+'-'+projectDetails?.endDate.getFullYear()}}</span></span>
+     <br> -->
+     
+     <p><span style="font-size: large;color: black;padding-left: 20px;">{{projectDetails?.manager.firstName}} {{projectDetails?.manager.lastName}}</span> <span><i class='fas fa-map-marker-alt' style="color: rgb(212, 208, 208);margin-left:1245px;"></i> &nbsp; {{projectDetails?.location}}</span></p>
+</div>
+<div>
+    <p style=" font-size:x-large;background-color:rgb(211, 221, 221);text-align: center;max-height: 250px;align-content: center;">Resources Available for {{projectDetails?.projectName}}</p>
+</div>
+<!-- <div fxLayout="row wrap" style="padding-top: 30px;background-color: rgb(186, 226, 226);">
+    <app-project-details-card *ngFor="let project of projectDetails" [project]="project" fxFlex="80%" style="back"></app-project-details-card>
+</div> -->
+<div class="middle-container">
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" fxLayoutButtomGap>
+    <div  fxFlex="25%">
+        <div class="frontEndDev-column">
+             <p style="font-size:x-large;background-color: rgb(8, 21, 32);text-align: center;max-height: 150px;color: aliceblue;">Front End Developer</p>
+            <app-profile-card  *ngFor="let profile of frontEndDev" [profile]="profile"></app-profile-card>
+        </div>
+    </div>
+    <div fxFlex="25%">
+        <div> 
+            <p style="font-size:x-large;background-color: rgb(8, 21, 32);text-align: center;max-height: 150px;color: aliceblue;">Back End Developer</p>
+            <app-profile-card *ngFor="let profile of backEndDev" [profile]="profile"></app-profile-card>
+        </div>
+    </div>
+    <div fxFlex="25%">
+        <div>
+            <p style="font-size:x-large;background-color: rgb(8, 21, 32);text-align: center;max-height: 150px;color: aliceblue;">Testing</p>
+            <app-profile-card *ngFor="let profile of testing" [profile]="profile"></app-profile-card>
+        </div>
+    </div>
+  </div>
+</div>
+  <div class="example-button-row">
+    <button mat-raised-button color="warn" style="height: 70px;font-size: large;background-color:  rgb(8, 21, 32);">Create Team</button>
+</div>
+
+

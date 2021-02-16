@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Confirm Your Team Selection :</h1>
+<div mat-dialog-content>
+  <table class="table table-secondary table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Designation</th>
+        <th scope="col">Experience</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let resource of data.resources; let i = index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{resource.firstName}} {{resource.lastName}}</td>
+        <td>{{resource.email}}</td>
+        <td>{{resource.designation}}</td>
+        <td>{{resource.experienceInYrs}} Years</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div mat-dialog-actions>
+  <button type="button" class="btn btn-dark" (click)="close()">Select Again</button>
+  &nbsp;&nbsp;
+  <button type="button" class="btn btn-success" (click)="confirm()">Confirm</button>
+</div>

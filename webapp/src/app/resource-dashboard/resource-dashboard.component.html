@@ -1,0 +1,117 @@
+<!-- <div fxLayout="row wrap" style="padding-top: 30px;" fxLayout.xs="column">
+    <app-project-card *ngFor="let project of projects" [project]="project" fxFlex="33%" fxFlex.xs="100%">
+    </app-project-card>
+  </div> -->
+
+
+  <!-- <div class="carousel" data-flickity='{ "groupCells": true }'>
+     
+    <div fxLayout="row wrap" style="padding-top: 30px;" fxLayout.xs="column">
+        <app-project-card *ngFor="let project of projects" [project]="project" fxFlex="33%" fxFlex.xs="100%" >
+        </app-project-card>
+      </div>
+  </div> -->
+
+ 
+  <!-- <div class="margin">
+            <div fxLayout="row wrap"  style="padding-top: 30px; margin-left: 90px;" fxLayout.xs="column">
+                <app-project-card class="row mySlides fad" *ngFor="let project of projects" [project]="project" fxFlex="33%" fxFlex.xs="100%">
+                </app-project-card>
+                <a class="pre" (click)="previousslide()">&#10094;</a>
+                <a class="nex" (click)="nextslide()">&#10095;</a>
+        </div> 
+    </div>
+        -->
+        <h2 style="margin-left: 32px;">Recommended Projects</h2>
+        <div class="margin" >
+         
+            <div fxLayout="row wrap" fxLayout.xs="column" style="margin-top: 30px;">
+                <app-project-card class="mySlides fad" *ngFor="let project of projects" [project]="project" fxFlex="33%" fxFlex.xs="100%">
+                </app-project-card>
+                <a class="pre" (click)="previousslide()" *ngIf="pdisabled">&#10094;</a>
+                <a class="nex" (click)="nextslide()" *ngIf="ndisabled">&#10095;</a>
+        </div> 
+    </div>
+<br>
+<h2 style="margin-left: 32px;">Recommended Projects</h2>
+    <div class="margin">
+         
+      <div fxLayout="row wrap" fxLayout.xs="column" style="margin-top: 30px;">
+          <app-project-card class="mySlides fad" *ngFor="let project of projects" [project]="project" fxFlex="33%" fxFlex.xs="100%">
+          </app-project-card>
+          <a class="previous" (click)="previousslide()" *ngIf="pdisabled">&#10094;</a>
+          <a class="next" (click)="nextslide()" *ngIf="ndisabled">&#10095;</a>
+  </div> 
+</div>
+    <br><br>
+       
+ 
+
+
+  <!-- <div class="newscontent">
+    <div class=" container-fluid news-slider">
+        <div class="row mySlides fad" *ngFor="let project of datachunk">
+            <div class=" col-xl-2 col-lg-2 col-md-2 col-sm-2 newsitem" *ngFor="let item of project">
+                <div class="card-contents">
+                    <mat-card class="example-card">
+                      <div fxLayout="row" fxLayout.xs="column">
+                        <div fxFlex="81%">
+                  
+                        </div>
+                  
+                        <div fxFlex="19%" [style.color]="getColor(item.projectStatus)">{{item.projectStatus}}</div>
+                      </div>
+                      <mat-card-header>
+                        <mat-card-title>{{item.projectName}} </mat-card-title>
+                        <mat-card-subtitle>{{item.manager.firstName}} {{item.manager.lastName}}</mat-card-subtitle>
+                      </mat-card-header>
+                  
+                      <mat-card-content style="display: block; text-align: justify; text-justify: inter-word;" fxLayout="column">
+                        <p>{{item.projectDescription}}</p>
+                  
+                        <div fxLayout="row">
+                          <div class="icon-style" fxFlex="50%">
+                            <mat-icon class="icon-styling">date_range</mat-icon>
+                            <div>
+                              {{item.startDate}}
+                            </div>
+                          </div>
+                          <div style="padding-left: 8rem; "> </span> 
+                          <div class="icon-style" fxFlex="50%">
+                            <mat-icon class="icon-styling">event</mat-icon>
+                            <div>
+                              {{item.endDate.getDate()+'-'+item.endDate.getMonth()+'-'+item.endDate.getFullYear()}}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div fxLayout="row" fxLayoutGap="6px" class="icon-style" style="vertical-align: middle;">
+                          <i class='fas fa-map-marker-alt' style="color: gray; vertical-align: top; "></i>
+                          <div>
+                            {{item.location}}
+                          </div>
+                        </div>
+                      </mat-card-content>
+                      <mat-card-actions>
+                        <div fxFlex="70%"></div>
+                        <button fxFlex="30%" class="btn btn-primary" type="submit" style="text-align: center; ">Create Team</button>
+                  
+                      </mat-card-actions>
+                    </mat-card>
+                  </div>
+              </div>
+        </div>
+        <a class="pre" (click)="plusSlides(-1)">&#10094;</a>
+          <a class="nex" (click)="plusSlides(1)">&#10095;</a>
+    </div>
+    </div> -->
+
+
+
+
+  
+
+  
+  
+
+    

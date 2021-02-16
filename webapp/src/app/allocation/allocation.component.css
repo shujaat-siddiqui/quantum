@@ -1,0 +1,49 @@
+.container{
+    justify-content:space-evenly;
+    width:100%;
+    gap:2px;
+    padding-top: 1%;
+    padding-bottom: 3%;
+    padding-left: 6%;
+    padding-right: 6%;
+    background: #BBD2C5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #292E49, #536976, #BBD2C5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #292E49, #536976, #BBD2C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.row{
+    display: flex;
+    gap: 5px;
+    /* justify-content: space-evenly; */
+  
+    
+}
+.card {
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+    border-radius: 10px;
+    margin: 2rem;
+   
+
+   
+}
+mat-card:hover  {
+    box-shadow: 0 50px 50px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+    background:linear-gradient(180deg, rgb(206, 198, 198), rgb(200, 137, 137));
+  }
+
+mat-card{
+    /* background-image: linear-gradient(180deg, rgb(253, 253, 253), rgb(200, 137, 137));  */
+    width: 200px;
+    background: #4CA1AF;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #C4E0E5, #4CA1AF);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #C4E0E5, #4CA1AF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+    transition: 0.2s ease-in-out;
+}
+.example-section{
+    margin-bottom: 5%;
+    margin-left: 80%;
+    align-content: space-between;
+    margin-top: auto;
+  }
+  

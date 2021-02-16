@@ -1,0 +1,237 @@
+version: '3.5'
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    restart: always
+
+  mysql:
+    image: mysql:8.0.22
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./data/mysql-data:/var/lib/mysql
+    restart: always
+    
+  mongodb:
+    image: mongo:4.4.2-bionic
+    volumes:
+      - ./data/mongo-data:/data/db/
+    container_name: mongo_container
+    ports:
+      - 27017:27017
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    volumes:
+      - ./data/rabbitmq-data:/var/lib/rabbitmq
+    container_name: rabbitmq_container
+    ports:
+      - 15672:15672
+      - 5672:5672      
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./data/elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    restart: always
+
+  kibana:
+    image: kibana:7.6.2
+    links:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    restart: always
+
+  logstash:
+    image: logstash:7.10.1
+    environment:
+      - STDOUT=true
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+      - kibana
+    command: 'logstash -e "input { udp { port => 5000 } } output { elasticsearch { hosts =>     elasticsearch } }"'
+    restart: always
+
+  logspout:
+    image: gliderlabs/logspout:master
+    command: 'udp://logstash:5000'
+    links:
+      - logstash
+    volumes:
+      - '/var/run/docker.sock:/tmp/docker.sock'
+    depends_on:
+      - elasticsearch
+      - logstash
+      - kibana
+    restart: always
+
+  neo4j:
+    image: neo4j:4.2.3
+    volumes:
+      - ./data/neo4j-data/data:/data
+      - ./data/neo4j-data/logs:/logs
+      - ./data/neo4j-data/import:/var/lib/neo4j/import
+      - ./data/neo4j-data/plugins:/plugins
+#      - $HOME/quantum/neo4j/data:/data
+#      - $HOME/quantum/neo4j/logs:/logs
+#      - $HOME/quantum/neo4j/import:/var/lib/neo4j/import
+#      - $HOME/quantum/neo4j/plugins:/plugins
+    container_name: neo4j_container
+    ports:
+      - 7474:7474
+      - 7687:7687
+    restart: always
+
+  project-service:
+    build: project-service/
+    container_name: project_service_container
+    ports:
+      - 8086:8086    
+    environment:
+      MONGO_HOST: mongodb
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - mongodb
+      - rabbitmq
+    restart: always
+
+  profile-service:
+    build: profile-service/
+    container_name: profile_service_container
+    ports:
+      - 8090:8090
+    environment:
+      MONGO_HOST: mongodb
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - mongodb
+      - rabbitmq
+    restart: always
+
+  search-service:
+    build: search-service/
+    container_name: search_service_container
+    ports:
+      - 8087:8087
+    environment:
+      ELASTIC_SEARCH_HOST_AND_PORT: elasticsearch:9200
+      RABBITMQ_HOST: rabbitmq
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - elasticsearch
+      - rabbitmq
+    restart: always
+    
+  nlp-service:
+    build: nlp-service/
+    container_name: nlp_service_container
+    ports:
+      - 8092:8092
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    restart: always
+
+  authentication-service:
+    build: authentication-service/
+    container_name: authentication_service_container
+    ports:
+      - 8085:8085
+    environment:
+      MYSQL_PASSWORD: password
+      MYSQL_HOST: mysql
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  eureka-server:
+    build: eureka-server/
+    container_name: eureka_server_container
+    ports:
+      - 8761:8761
+    restart: always
+
+  api-gateway:
+    build: api-gateway/
+    container_name: api_gateway_container
+    ports:
+      - 8091:8091
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    restart: always
+
+  resource-allocation-engine:
+    build: resource-allocation-engine/
+    container_name: resource_allocation_engine_container
+    ports:
+      - 8089:8089
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - neo4j
+    restart: always
+
+  resource-allocation-c-service:
+    build: resource-allocation-c-service/
+    container_name: resource_allocation_c_service_container
+    ports:
+      - 8088:8088
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - neo4j
+      - rabbitmq
+    restart: always
+
+

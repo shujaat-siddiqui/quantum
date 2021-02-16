@@ -1,0 +1,149 @@
+<div *ngIf="!isProjectLoaded">
+  <div class="d-flex justify-content-center" style="margin-top: 10%">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="d-flex justify-content-center" style="margin-top: 5%; margin-bottom: 5%">
+    <h1 class="display-5">Loading your project..</h1>
+  </div>
+</div>
+
+
+
+
+<div style="display: flex; flex-direction: column;  padding: 5%; padding-top: 1%; width: 100%" *ngIf="isProjectLoaded">
+
+  <div style="display: flex; flex-direction: column; width: 100%; background-image: url({{
+        projectImage
+      }}); background-repeat: no-repeat;">
+    <div class="d-flex justify-content-between" style="padding: 1%">
+      <div>
+        <h1 class="display-4" style="color: burlywood ;">
+          {{ project.projectName }}
+        </h1>
+        <span class="material-icons" style="color: burlywood; float: left; margin-left: 5px">assignment_ind&nbsp;</span>
+        <h5 style="float: left">
+          <span class="badge text-dark" style="background-color: burlywood ;">{{ project.manager.firstName }}
+            {{ project.manager.lastName }}</span>
+        </h5>
+      </div>
+
+      <div style="
+            display: flex;
+            flex-direction: row;
+            margin-top: 7px;
+            margin-right: 2%;
+            font-size: large;
+          ">
+        <span [ngStyle]="{ color: statusColor }">
+          <span class="material-icons" style="float: left">
+            {{ statusIcon }}
+          </span>
+          <p class="font-weight-normal" style="float: left">
+            {{ project.projectStatus }}
+          </p>
+        </span>
+
+        &nbsp; &nbsp;
+
+        <span style="color: orange">
+          <span class="material-icons" style="float: left"> location_on </span>
+          <p class="font-weight-normal" style="float: left">
+            {{ project.location }}
+          </p>
+        </span>
+      </div>
+    </div>
+
+    <div style="margin: 1.5%; margin-top: 5px; margin-bottom: 1%">
+      <p class="lead" style="color: burlywood">
+        {{ project.projectDescription }}
+      </p>
+    </div>
+
+    <div style="
+          display: flex;
+          flex-direction: row;
+          margin: 1.5%;
+          margin-top: 5px;
+          margin-bottom: 1%;
+          color: burlywood;
+          font-size: large;
+        ">
+      <span>
+        <span class="material-icons" style="float: left"> today </span>
+        <p class="font-weight-normal" style="float: left">{{ startDate }}</p>
+      </span>
+
+      &nbsp; &nbsp;
+
+      <span>
+        <span class="material-icons" style="float: left"> event </span>
+        <p class="font-weight-normal" style="float: left">{{ endDate }}</p>
+      </span>
+    </div>
+  </div>
+
+  <div>
+    <figure class="text-center" style="padding-left: 2%; padding-right: 2%; margin-top: 1%" *ngIf="!isError">
+      <span class="d-block p-2" style="color:burlywood; background-image: url({{
+              resourceImage
+            }}); background-repeat: no-repeat">
+        <p class="h4">Select Resources</p>
+      </span>
+    </figure>    
+
+    <div class="jumbotron" *ngIf="isError" style="margin-top: 2%" >
+      <h1 class="display-5">Insufficient Resources!</h1>
+      <p class="lead">
+        The requried number of resources for this project is not Available.
+      </p>
+      <hr class="my-4" />
+      <p>Click below to try again.</p>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" role="button" (click)="tryAgain()">Find Resources</a>
+      </p>
+    </div>
+
+    <div *ngIf="loadingResourcesSpinner()">
+      <div class="d-flex justify-content-center" style="margin-top: 7%">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div class="d-flex justify-content-center" style="margin-top: 5%; margin-bottom: 5%">
+        <h1 class="display-5">Finding resources for your project..</h1>
+      </div>
+    </div>
+
+    <div id="resource-container" fxLayout="row wrap" *ngIf="isResourcesLoaded">
+
+      <div id="expertise-container" *ngFor="let expertise of recommendedResources"
+        style="display: flex; flex-direction: column; padding-left: 2%; padding-right: 2%; margin-top: 1%;">
+        <h1 style="margin: 1%;text-align: center;font-weight: 500;">{{expertise.designation}}</h1>
+        <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+          <h4 style="padding-bottom: 2px;height: 40px;font-weight: 500;margin-top: 10px;">Available Resources</h4>
+          <h5>(You can select maximum {{getMax(expertise.designation)}} resources )</h5>
+          <div *cdkVirtualFor="let resource of expertise.resourcesSuggested" class="example-item">
+
+            <mat-card
+              style="margin-top:1% ;padding-top: 2px;padding-left: 2px; margin-left: 5px; margin-right: 5px; background-color: black; color:white;">
+              <div class="d-flex justify-content-evenly" style="padding-top: 2px;">
+                <section class="example-section">
+                  <mat-checkbox class="example-margin" [disabled]="isDisabled(expertise.designation, resource)"
+                    (change)="selectResource(resource)"></mat-checkbox>
+                </section>
+                &nbsp;&nbsp;
+                {{resource.name}}
+              </div>
+            </mat-card>
+
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </div>
+
+    </div>
+
+    <div class="d-flex flex-row-reverse bd-highlight" style="margin-top: 1%;" *ngIf="isResourcesLoaded">
+      <button type="button" class="btn btn-primary" id="btn-create-team" (click)="createTeam()">Create Team</button>
+    </div>
+
+
+  </div>
